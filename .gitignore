@@ -5,3 +5,5 @@ target/
 mvnw
 mvnw.cmd
 .DS_Store
+.project
+.settings/
