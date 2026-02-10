@@ -37,12 +37,12 @@ graph TD
 📂 Project Hierarchy
 	
 	trading-platform/
-	├── discovery-server/   # Eureka Service Registry (Port 8761)
-	├── api-gateway/        # Spring Cloud Gateway (Port 8080)
-	├── auth-service/       # Identity Management & JWT (Port 9000)
-	├── order-service/      # Buy/Sell Logic & History (Port 8081)
-	├── wallet-service/     # User Funds Management (Port 8082)
-	└── portfolio-service/  # Stock Holdings Tracker (Port 8083)
+		├── discovery-server/   # Eureka Service Registry (Port 8761)
+		├── api-gateway/        # Spring Cloud Gateway (Port 8080)
+		├── auth-service/       # Identity Management & JWT (Port 9000)
+		├── order-service/      # Buy/Sell Logic & History (Port 8081)
+		├── wallet-service/     # User Funds Management (Port 8082)
+		└── portfolio-service/  # Stock Holdings Tracker (Port 8083)
 	
 🚀 Services Overview
 
@@ -113,14 +113,14 @@ graph TD
 
 API Endpoints (via Gateway)
 
-	| Service | Method | Endpoint | Description |
-	|---|---|---|---|
-	| Auth | POST | /auth/register | Create new user |
-	| Auth | POST | /auth/token | Login & get JWT |
-	| Wallet | GET | /api/wallet | Get balance (Secured) |
-	| Order | POST | /api/orders | Place a trade (Secured) |
-	| Order | GET | /api/orders/history | View history (Secured) |
-	| Portfolio | GET | /api/portfolio | View holdings (Secured) |
+| Service | Method | Endpoint | Description |
+|:---:|:---:|---|---|
+| Auth | POST | /auth/register | Create new user |
+| Auth | POST | /auth/token | Login & get JWT |
+| Wallet | GET | /api/wallet | Get balance (Secured) |
+| Order | POST | /api/orders | Place a trade (Secured) |
+| Order | GET | /api/orders/history | View history (Secured) |
+| Portfolio | GET | /api/portfolio | View holdings (Secured) |
 
 
 
