@@ -7,3 +7,13 @@ mvnw.cmd
 .DS_Store
 .project
 .settings/
+
+# Ignore Eclipse-specific files in all sub-modules
+**/.project
+**/.classpath
+**/.settings/
+
+# Also ignore IntelliJ-specific files if you haven't already
+**/.idea/
+**/bin/
+*.iml
