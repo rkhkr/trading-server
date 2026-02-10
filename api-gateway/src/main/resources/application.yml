@@ -1,0 +1,100 @@
+server:
+  port: 8080 # The standard entry port for the outside world
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # Automatically create routes based on Eureka Service IDs
+          lower-case-service-id: true # Allow "order-service" instead of "ORDER-SERVICE"
+      routes:
+        ## Manual Route Example (We will rely on auto-discovery mostly, but here is how you do it)
+        
+        # --- AUTH SERVICE ---
+        - id: auth-service
+          uri: lb://auth-service  # 'lb' means Load Balanced (uses Eureka)
+          predicates:
+            - Path=/auth/** # Matches /auth/register, /auth/token, etc.
+            
+        # --- ORDER SERVICE ---
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - AuthenticationFilter
+            
+        # --- WALLET SERVICE ---
+        - id: wallet-service
+          uri: lb://wallet-service
+          predicates:
+            - Path=/api/wallet/**
+          filters:
+            - AuthenticationFilter
+            
+        # --- PORTFOLIO SERVICE ---
+        - id: portfolio-service
+          uri: lb://portfolio-service
+          predicates:
+            - Path=/api/portfolio/**
+          filters:
+            - AuthenticationFilter
+
+        ## Route for Swagger JSON
+        
+        # --- MISSING SWAGGER ROUTE FOR AUTH ---
+        - id: auth-service-docs
+          uri: lb://auth-service
+          predicates:
+            - Path=/v3/api-docs/auth-service
+          filters:
+            - RewritePath=/v3/api-docs/auth-service(?<segment>.*), /v3/api-docs${segment}
+        
+        # This forwards "localhost:8080/v3/api-docs/order-service" to "order-service/v3/api-docs"
+        - id: order-service-docs
+          uri: lb://order-service
+          predicates:
+            - Path=/v3/api-docs/order-service
+          filters:
+            - RewritePath=/v3/api-docs/order-service(?<segment>.*), /v3/api-docs${segment}
+            #- RewritePath=/v3/api-docs/order-service, /v3/api-docs
+
+        - id: wallet-service-docs
+          uri: lb://wallet-service
+          predicates:
+            - Path=/v3/api-docs/wallet-service
+          filters:
+            - RewritePath=/v3/api-docs/wallet-service(?<segment>.*), /v3/api-docs${segment}
+
+        - id: portfolio-service-docs
+          uri: lb://portfolio-service
+          predicates:
+            - Path=/v3/api-docs/portfolio-service
+          filters:
+            - RewritePath=/v3/api-docs/portfolio-service(?<segment>.*), /v3/api-docs${segment}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Register with the phonebook
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 10 # Send heartbeat every 10 second (Default: 30s)
+    lease-expiration-duration-in-seconds: 30 # If you don't hear from me in 30 seconds, kill me (Default: 90s)
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Auth Service
+        url: /v3/api-docs/auth-service
+      - name: Order Service
+        url: /v3/api-docs/order-service
+      - name: Wallet Service
+        url: /v3/api-docs/wallet-service
+      - name: Portfolio Service
+        url: /v3/api-docs/portfolio-service
+

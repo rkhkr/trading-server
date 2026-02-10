@@ -1,0 +1,26 @@
+server:
+  port: 9898 # Standard port for Auth Services
+
+spring:
+  application:
+    name: auth-service # ⚠️ Crucial for Eureka
+  datasource:
+    url: jdbc:mysql://localhost:9060/auth_db?createDatabaseIfNotExist=true
+    username: root
+    password: rkumar
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: false # Turn this OFF to force using the hostname below
+    lease-renewal-interval-in-seconds: 10 # Send heartbeat every 10 second (Default: 30s)
+    lease-expiration-duration-in-seconds: 30 # If you don't hear from me in 30 seconds, kill me (Default: 90s)

@@ -1,0 +1,51 @@
+server:
+  port: 8082 # Distinct port for Wallet Service
+
+spring:
+  application:
+    name: wallet-service
+  datasource:
+    # AUTOMATICALLY CREATES THE NEW DATABASE 'wallet_db'
+    url: jdbc:mysql://localhost:9060/wallet_db?createDatabaseIfNotExist=true
+    username: root
+    password: rkumar
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # Automatically creates the table based on the Entity
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+    consumer:
+      group-id: wallet-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.use.type.headers: false #Ignore the package name sent by Order Service
+        spring.json.trusted.packages: "*" # Allow trusting the Order event package
+        spring.json.value.default.type: in.rkumar.walletservice.events.OrderPlacedEvent
+
+logging:
+  level:
+    root: INFO
+    org.springframework.kafka: INFO
+    org.apache.kafka.clients.consumer: INFO
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 10 # Send heartbeat every 10 second (Default: 30s)
+    lease-expiration-duration-in-seconds: 30 # If you don't hear from me in 30 seconds, kill me (Default: 90s)

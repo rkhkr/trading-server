@@ -1,0 +1,38 @@
+server:
+  port: 8083 # Distinct port
+
+spring:
+  application:
+    name: portfolio-service
+  datasource:
+    # Auto-create the new database
+    url: jdbc:mysql://localhost:9060/portfolio_db?createDatabaseIfNotExist=true
+    username: root
+    password: rkumar
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: portfolio-group # Unique Group ID
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: false
+        # We will need to map the incoming event to a class (Next Step)
+        spring.json.value.default.type: in.rkumar.portfolioservice.events.PaymentProcessedEvent
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: false # Turn this OFF to force using the hostname below
+    lease-renewal-interval-in-seconds: 10 # Send heartbeat every 10 second (Default: 30s)
+    lease-expiration-duration-in-seconds: 30 # If you don't hear from me in 30 seconds, kill me (Default: 90s)
