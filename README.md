@@ -115,12 +115,12 @@ API Endpoints (via Gateway)
 
 	| Service | Method | Endpoint | Description |
 	|---|---|---|---|
-	| Auth | POST | /auth/register | Create new user
-	| Auth | POST | /auth/token | Login & get JWT
-	| Wallet | GET | /api/wallet | Get balance (Secured)
-	| Order | POST | /api/orders | Place a trade (Secured)
-	| Order | GET | /api/orders/history | View history (Secured)
-	| Portfolio | GET | /api/portfolio | View holdings (Secured)
+	| Auth | POST | /auth/register | Create new user |
+	| Auth | POST | /auth/token | Login & get JWT |
+	| Wallet | GET | /api/wallet | Get balance (Secured) |
+	| Order | POST | /api/orders | Place a trade (Secured) |
+	| Order | GET | /api/orders/history | View history (Secured) |
+	| Portfolio | GET | /api/portfolio | View holdings (Secured) |
 
 
 
