@@ -32,6 +32,7 @@ graph TD
     Gateway -->|2. Forward with 'loggedInUser' Header| Portfolio
     
     Gateway -->|Login Request| Auth
+```
 	
 📂 Project Hierarchy
 	
