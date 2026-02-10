@@ -100,23 +100,28 @@ graph TD
 ⚡ How to Run
 	
 	1. Clone the repository: 
-		git clone [https://github.com/rkhkr/trading-server.git](https://github.com/rkhkr/trading-server.git)
+		git clone https://github.com/rkhkr/trading-server.git
 	2. Start Infrastructure:
 		Run DiscoveryServerApplication (Wait for it to start).
 	3. Start Gateway:
 		Run ApiGatewayApplication.
 	4. Start Microservices:
-		Run AuthServiceApplication, OrderServiceApplication, WalletServiceApplication, PortfolioServiceApplication.
+		Run AuthServiceApplication,
+		Run OrderServiceApplication,
+		Run WalletServiceApplication,
+		Run PortfolioServiceApplication.
 
-Service,Method,Endpoint,Description
-Auth,POST,/auth/register,Create new user
-Auth,POST,/auth/token,Login & get JWT
-Wallet,GET,/api/wallet,Get balance (Secured)
-Order,POST,/api/orders,Place a trade (Secured)
-Order,GET,/api/orders/history,View history (Secured)
-Portfolio,GET,/api/portfolio,View holdings (Secured)
+API Endpoints (via Gateway)
+
+	| Service | Method | Endpoint | Description |
+	|---|---|---|---|
+	| Auth | POST | /auth/register | Create new user
+	| Auth | POST | /auth/token | Login & get JWT
+	| Wallet | GET | /api/wallet | Get balance (Secured)
+	| Order | POST | /api/orders | Place a trade (Secured)
+	| Order | GET | /api/orders/history | View history (Secured)
+	| Portfolio | GET | /api/portfolio | View holdings (Secured)
+
 
 
 Built with ❤️ by [RKumar]
-
-```
