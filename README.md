@@ -8,17 +8,17 @@ This diagram illustrates the request flow. The **API Gateway** acts as the singl
 
 ```mermaid
 graph TD
-    Client[Client (Web/Mobile)] -->|HTTPS Request| Gateway[API Gateway <br/> Port: 8080]
+    Client["Client (Web/Mobile)"] -->|HTTPS Request| Gateway["API Gateway <br/> Port: 8080"]
     
     subgraph Infrastructure
-    Eureka[Discovery Server (Eureka) <br/> Port: 8761]
+    Eureka["Discovery Server (Eureka) <br/> Port: 8761"]
     end
     
     subgraph Microservices
-    Auth[Auth Service <br/> JWT Generation]
-    Order[Order Service <br/> Trade Execution]
-    Wallet[Wallet Service <br/> Balance Management]
-    Portfolio[Portfolio Service <br/> Holdings]
+    Auth["Auth Service <br/> JWT Generation"]
+    Order["Order Service <br/> Trade Execution"]
+    Wallet["Wallet Service <br/> Balance Management"]
+    Portfolio["Portfolio Service <br/> Holdings"]
     end
 
     Gateway -.->|Registers| Eureka
