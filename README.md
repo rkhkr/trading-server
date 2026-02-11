@@ -36,7 +36,7 @@ graph TD
 	
 📂 Project Hierarchy
 	
-	trading-platform/
+	trading-server/
 		├── discovery-server/   # Eureka Service Registry (Port 8761)
 		├── api-gateway/        # Spring Cloud Gateway (Port 8080)
 		├── auth-service/       # Identity Management & JWT (Port 9000)

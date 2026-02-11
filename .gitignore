@@ -7,11 +7,13 @@ mvnw.cmd
 .DS_Store
 .project
 .settings/
+docker-data/
 
 # Ignore Eclipse-specific files in all sub-modules
 **/.project
 **/.classpath
 **/.settings/
+**/target/
 
 # Also ignore IntelliJ-specific files if you haven't already
 **/.idea/

@@ -1,5 +1,19 @@
-version: '3'
 services:
+
+  mysql-db:
+    image: mysql:8.0-debian
+    container_name: mysql-rkumar
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rkumar
+      MYSQL_DATABASE: trading_db
+    ports:
+      - "9060:3306"
+    volumes:
+      - ./docker-data/mysql:/var/lib/mysql
+    networks:
+      - trading-net
+
   kafka:
     image: apache/kafka:latest
     container_name: kafka-rkumar
@@ -9,25 +23,23 @@ services:
       KAFKA_NODE_ID: 1
       KAFKA_CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
       KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-rkumar:9093
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      #KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-rkumar:9093
       
-      # 1. Define the Listener Names: INTERNAL (Docker), EXTERNAL (Host), CONTROLLER
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      
-      # 2. Map them to Protocols (All plaintext for local dev)
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
-      
-      # 3. ADVERTISE (What clients see)
-      # - Docker apps (Kafka UI) see: kafka-rkumar:29092
-      # - Your Laptop (Eclipse) sees: localhost:9092
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-rkumar:29092,EXTERNAL://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      #KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-rkumar:29092,EXTERNAL://localhost:9092
       
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    volumes:
+      - ./docker-data/kafka:/var/lib/kafka/data
     networks:
       - trading-net
 
@@ -38,8 +50,8 @@ services:
       - "8092:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      # Matches the 'INTERNAL' listener above
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-rkumar:29092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      #KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-rkumar:29092
     networks:
       - trading-net
     depends_on:
