@@ -2,8 +2,8 @@ server:
   port: 8761 # The standard port for Eureka
 
 spring:
-  application:
-    name: discovery-server
+  profiles:
+    active: dev
 
 eureka:
   instance:

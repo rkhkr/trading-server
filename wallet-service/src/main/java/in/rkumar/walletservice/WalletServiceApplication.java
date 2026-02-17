@@ -24,10 +24,10 @@ public class WalletServiceApplication {
             if (repository.count() == 0) {
                 repository.saveAll(
                 		Arrays.asList(
-	                        new Wallet("101", 1000000L),
-	                        new Wallet("102", 10000000L),
-	                        new Wallet("103", 5000L),
-	                        new Wallet("104", 1000L)
+	                        new Wallet("client101", 1000000L),
+	                        new Wallet("client102", 10000000L),
+	                        new Wallet("client103", 5000L),
+	                        new Wallet("client104", 1000L)
                 ));
             }
         };

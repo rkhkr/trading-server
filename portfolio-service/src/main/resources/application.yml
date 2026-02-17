@@ -2,18 +2,8 @@ server:
   port: 8083 # Distinct port
 
 spring:
-  application:
-    name: portfolio-service
-  datasource:
-    # Auto-create the new database
-    url: jdbc:mysql://localhost:9060/portfolio_db?createDatabaseIfNotExist=true
-    username: root
-    password: rkumar
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+  profiles:
+    active: dev
   kafka:
     bootstrap-servers: localhost:9092
     consumer:

@@ -2,18 +2,8 @@ server:
   port: 8082 # Distinct port for Wallet Service
 
 spring:
-  application:
-    name: wallet-service
-  datasource:
-    # AUTOMATICALLY CREATES THE NEW DATABASE 'wallet_db'
-    url: jdbc:mysql://localhost:9060/wallet_db?createDatabaseIfNotExist=true
-    username: root
-    password: rkumar
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update # Automatically creates the table based on the Entity
-    show-sql: true
+  profiles:
+    active: dev
   kafka:
     bootstrap-servers: localhost:9092
 
