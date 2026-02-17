@@ -1,0 +1,67 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: api-gateway-prod
+  cloud:
+    gateway:
+      routes:
+        # --- AUTH SERVICE (PROD) ---
+        - id: auth-service
+          uri: lb://auth-service-prod
+          predicates:
+            - Path=/auth/**
+        - id: auth-service-docs
+          uri: lb://auth-service-prod
+          predicates:
+            - Path=/v3/api-docs/auth-service
+          filters:
+            - RewritePath=/v3/api-docs/auth-service(?<segment>.*), /v3/api-docs${segment}
+
+        # --- ORDER SERVICE (PROD) ---
+        - id: order-service
+          uri: lb://order-service-prod
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - AuthenticationFilter
+        - id: order-service-docs
+          uri: lb://order-service-prod
+          predicates:
+            - Path=/v3/api-docs/order-service
+          filters:
+            - RewritePath=/v3/api-docs/order-service(?<segment>.*), /v3/api-docs${segment}
+
+        # --- WALLET SERVICE (PROD) ---
+        - id: wallet-service
+          uri: lb://wallet-service-prod
+          predicates:
+            - Path=/api/wallet/**
+          filters:
+            - AuthenticationFilter
+        - id: wallet-service-docs
+          uri: lb://wallet-service-prod
+          predicates:
+            - Path=/v3/api-docs/wallet-service
+          filters:
+            - RewritePath=/v3/api-docs/wallet-service(?<segment>.*), /v3/api-docs${segment}
+
+        # --- PORTFOLIO SERVICE (PROD) ---
+        - id: portfolio-service
+          uri: lb://portfolio-service-prod
+          predicates:
+            - Path=/api/portfolio/**
+          filters:
+            - AuthenticationFilter
+        - id: portfolio-service-docs
+          uri: lb://portfolio-service-prod
+          predicates:
+            - Path=/v3/api-docs/portfolio-service
+          filters:
+            - RewritePath=/v3/api-docs/portfolio-service(?<segment>.*), /v3/api-docs${segment}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${PROD_EUREKA_URL:http://discovery-server:8761/eureka/} # Use Env Variable in Prod

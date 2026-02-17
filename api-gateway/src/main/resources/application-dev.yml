@@ -1,0 +1,70 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  application:
+    name: api-gateway-dev
+  cloud:
+    gateway:
+      routes:
+        ## Manual Route Example (We will rely on auto-discovery mostly, but here is how you do it)
+        # --- AUTH SERVICE (DEV) ---
+        - id: auth-service
+          uri: lb://auth-service-dev  # 'lb' means Load Balanced (uses Eureka)
+          predicates:
+            - Path=/auth/** # Matches /auth/register, /auth/token, etc.
+        - id: auth-service-docs
+          uri: lb://auth-service-dev
+          predicates:
+            - Path=/v3/api-docs/auth-service
+          filters:
+            - RewritePath=/v3/api-docs/auth-service(?<segment>.*), /v3/api-docs${segment}
+
+        # --- ORDER SERVICE (DEV) ---
+        - id: order-service
+          uri: lb://order-service-dev
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - AuthenticationFilter
+        # This forwards "localhost:8080/v3/api-docs/order-service" to "order-service/v3/api-docs"
+        - id: order-service-docs
+          uri: lb://order-service-dev
+          predicates:
+            - Path=/v3/api-docs/order-service
+          filters:
+            - RewritePath=/v3/api-docs/order-service(?<segment>.*), /v3/api-docs${segment}
+            #- RewritePath=/v3/api-docs/order-service, /v3/api-docs
+
+        # --- WALLET SERVICE (DEV) ---
+        - id: wallet-service
+          uri: lb://wallet-service-dev
+          predicates:
+            - Path=/api/wallet/**
+          filters:
+            - AuthenticationFilter
+        - id: wallet-service-docs
+          uri: lb://wallet-service-dev
+          predicates:
+            - Path=/v3/api-docs/wallet-service
+          filters:
+            - RewritePath=/v3/api-docs/wallet-service(?<segment>.*), /v3/api-docs${segment}
+
+        # --- PORTFOLIO SERVICE (DEV) ---
+        - id: portfolio-service
+          uri: lb://portfolio-service-dev
+          predicates:
+            - Path=/api/portfolio/**
+          filters:
+            - AuthenticationFilter
+        - id: portfolio-service-docs
+          uri: lb://portfolio-service-dev
+          predicates:
+            - Path=/v3/api-docs/portfolio-service
+          filters:
+            - RewritePath=/v3/api-docs/portfolio-service(?<segment>.*), /v3/api-docs${segment}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

@@ -2,8 +2,8 @@ server:
   port: 8081
 
 spring:
-  application:
-    name: order-service
+  profiles:
+    active: dev
   datasource:
     url: jdbc:mysql://localhost:9060/order_db?createDatabaseIfNotExist=true
     username: root

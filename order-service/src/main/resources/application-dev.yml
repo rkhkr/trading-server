@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  application:
+    name: order-service-dev
+  datasource:
+    url: jdbc:mysql://localhost:9060/order_db?createDatabaseIfNotExist=true
+    username: root
+    password: rkumar
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update

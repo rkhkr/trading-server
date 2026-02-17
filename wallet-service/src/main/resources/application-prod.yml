@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: wallet-service-prod
+  datasource:
+    url: jdbc:mysql://prod-db-server:3306/wallet_db
+    username: ${PROD_DB_USER}      # Read from Env Variable
+    password: ${PROD_DB_PASSWORD}  # Read from Env Variable
+	#driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: false                 # Disable logging in Prod for performance
+    hibernate:
+      ddl-auto: validate            # Safer: Only check schema, don't auto-update
