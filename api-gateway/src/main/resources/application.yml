@@ -44,8 +44,6 @@ spring:
             - AuthenticationFilter
 
         ## Route for Swagger JSON
-        
-        # --- MISSING SWAGGER ROUTE FOR AUTH ---
         - id: auth-service-docs
           uri: lb://auth-service
           predicates:

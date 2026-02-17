@@ -1,26 +1,27 @@
 package in.rkumar.authservice.config;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 
 import in.rkumar.authservice.models.UserCredential;
 import in.rkumar.authservice.repositories.UserCredentialRepository;
 
-import java.util.Optional;
-
-@Component
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserCredentialRepository repository;
+	private final UserCredentialRepository repository;
+
+    public CustomUserDetailsService(UserCredentialRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserCredential> credential = repository.findByName(username);
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        Optional<UserCredential> credential = repository.findByUserId(userId);
         return credential.map(CustomUserDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("user not found with name :" + username));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
     }
 }

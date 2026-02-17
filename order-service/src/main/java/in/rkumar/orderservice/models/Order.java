@@ -2,8 +2,6 @@ package in.rkumar.orderservice.models;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import in.rkumar.orderservice.enums.OrderStatus;
 import in.rkumar.orderservice.enums.OrderType;
 import jakarta.persistence.Column;
