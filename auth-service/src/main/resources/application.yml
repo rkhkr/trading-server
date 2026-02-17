@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: auth-service # ⚠️ Crucial for Eureka
+    name: auth-service
   datasource:
     url: jdbc:mysql://localhost:9060/auth_db?createDatabaseIfNotExist=true
     username: root

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
     info = @Info(title = "Auth Service API", version = "1.0", description = "Register and Login Users"),
     servers = {
-        @Server(url = "http://localhost:8080", description = "API Gateway URL"), // ⚠️ Important for routing
+        @Server(url = "http://localhost:8080", description = "API Gateway URL"), // routing
         @Server(url = "http://localhost:9898", description = "Direct Service URL")
     },
     security = @SecurityRequirement(name = "bearerAuth") // Tell Swagger this API is secured globally

@@ -6,8 +6,12 @@ import in.rkumar.authservice.models.UserCredential;
 
 import java.util.Optional;
 
-public interface UserCredentialRepository extends JpaRepository<UserCredential, Integer> {
-    
-    // Custom method to find a user by their name
-    Optional<UserCredential> findByName(String username);
+public interface UserCredentialRepository extends JpaRepository<UserCredential, Long> {
+
+	// For login (Token Generation)
+	Optional<UserCredential> findByUserId(String userId);
+	
+	// For checking duplicate emails during registration
+	Optional<UserCredential> findByEmail(String email);
+
 }
