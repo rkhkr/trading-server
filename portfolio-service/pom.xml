@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>in.rkumar</groupId>
 		<artifactId>trading-server</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.2</version>
 	</parent>
 
 	<artifactId>portfolio-service</artifactId>
